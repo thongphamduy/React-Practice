@@ -1,0 +1,28 @@
+.numpadContainer {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+
+}
+
+.numpadContainer div {
+	flex: 1 50px;
+	display: flex;
+	align-items: stretch;
+	justify-content: space-between;
+}
+
+.numpadContainer button {
+	flex: 1;
+	font-size: 9vh;
+	font-weight: normal;
+	padding: 0;
+}
+
+.numpadContainer div:last-child button:first-child{
+	flex: 2;
+}
+
+.numpadContainer div button:last-child {
+	background-color: #ba9a1d;
+}

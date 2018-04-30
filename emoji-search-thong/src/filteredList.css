@@ -1,0 +1,24 @@
+ul {
+  margin: 10px;
+  padding: 0;
+  list-style-type: none;
+  display: block;
+  /* opacity: 0.5; */
+  color: seashell;
+}
+
+li {
+  padding: 4px;
+  display: flex;
+  border-top: 1px solid gray;
+}
+
+li .icon {
+  font-size: 8vh;
+  margin-right: 3vh;
+}
+
+.title {
+  font-family: "Apple Chancery";
+  font-size: 150%;
+}

@@ -3,7 +3,7 @@ const fetch = require('node-fetch')
 
 export async function getUserInfo(userName) {
   const res = await fetch(`https://api.github.com/users/${userName}`);
-  const data = res.json();
+  const data = await res.json();
   return data;
 }
 
@@ -11,11 +11,6 @@ export async function getUserReposInfo (userName) {
   const res = await fetch(`https://api.github.com/users/${userName}/repos`);
   const data = res.json();
   return data;
-}
-
-export async function getUserAvatar(userName) {
-  const userInfo = await getUserInfo(userName);
-  return userInfo.avatar_url;
 }
 
 export async function calculateScore (userName) {
@@ -27,6 +22,6 @@ export async function calculateScore (userName) {
 }
 
 export async function getUserAvatar(userName) {
-  const avatar = await fetch(`https://github.com/${userName}.png?size=200`);
+  const avatar = await fetch(`https://github.com/${userName}.png?size=200`, {'mode': 'no-cors'});
   return avatar;
 }

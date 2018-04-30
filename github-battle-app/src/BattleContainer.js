@@ -1,9 +1,12 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PlayerInput from './PlayerInput';
 import './index.css';
 import PlayerPreview from './PlayerPreview';
 import { getUserInfo, calculateScore } from './utils';
 import PlayerInfo from './PlayerInfo';
+import ResetPlayer from './ResetPlayer';
+import BattleResult from './BattleResult';
+import NotFound from './NotFound';
 
 class BattleContainer extends React.Component {
   constructor(props){
@@ -11,63 +14,136 @@ class BattleContainer extends React.Component {
     this.handlePlayerSubmit = this.handlePlayerSubmit.bind(this);
     this.handleResetPlayer = this.handleResetPlayer.bind(this);
     this.handleStartBatle = this.handleStartBatle.bind(this);
-    this.state = {player1: null, player2: null, isBatleStart: false};
+    this.calculateWinner = this.calculateWinner.bind(this);
+    this.state = {
+      isBatleStarted: false,
+      player1: {},
+      player2: {},
+      notFound: false,
+    };
   }
 
   async handlePlayerSubmit(playerName, key) {
-    const playerData = await getUserInfo(playerName);
-    const playerInfo = {
-      name: playerData.login,
-      avatarUrl: playerData.avatar_url,
-      repos: playerData.public_repos,
-      followers: playerData.followers,
-      following: playerData.following,
-    }
-    if(key === 'player1') {
-      this.setState({player1: playerInfo});
-    } else {
-      this.setState({player2: playerInfo});
+    let updateState;
+    if(playerName) {
+      let userInfo = await getUserInfo(playerName);
+      if(userInfo.avatar_url) {
+        updateState = {
+          name: playerName, 
+          isResetBtnDisplay: true, 
+          avatarUrl: userInfo.avatar_url,
+          numOfRepos: userInfo.public_repos,
+          followers: userInfo.followers,
+          followings: userInfo.following
+        };
+      }  else {
+        updateState = {notFound: true};
+      } 
+      if(key === 'player1') {
+        this.setState({player1: updateState});
+      } else {
+        this.setState({player2: updateState});
+      }
     }
   }
   
   handleResetPlayer(key){
     if(key === 'player1') {
-      this.setState({player1: null, isBatleStart: false});
+      this.setState({player1: {}, isBatleStarted: false, notFound: false});
     } else {
-      this.setState({player2: null, isBatleStart: false});
+      this.setState({player2: {}, isBatleStarted: false, notFound: false});
     }
   }
 
   async handleStartBatle(e){
     e.preventDefault();
+    const player1State = Object.assign({}, this.state.player1);
+    const player2State = Object.assign({}, this.state.player2);
     const player1Score = await calculateScore(this.state.player1.name);
     const player2Score = await calculateScore(this.state.player2.name);
-    this.setState({isBatleStart: true, player1Score, player2Score});
+    const result1 = {
+      ...player1State,
+      score: player1Score, 
+    }
+    const result2 = {
+      ...player2State,
+      score: player2Score,
+    }
+    this.setState({isBatleStarted: true, player1: result1, player2: result2});
+  }
+
+  calculateWinner(score1, score2) {
+    if(score1 >= score2) {
+      return 'Winner';
+    } else {
+      return "Losser";
+    }
   }
 
   render () {
+    const player1 = this.state.player1;
+    const player2 = this.state.player2;
     return (
-      <div>
+      <div className="battle-wrraper">
         <div className="container">
-          <div>
-            <label>Player One</label>
-            {this.state.player1 ? 
-              <PlayerPreview onHandleReset={() => this.handleResetPlayer('player1')} playerInfo={this.state.player1}/> : 
-              <PlayerInput onSubmitPlayer={(playerName) => this.handlePlayerSubmit(playerName, 'player1')}/>
+          <div className="player-wrapper">
+            <label><h2>Player One</h2></label>
+            {(player1.isResetBtnDisplay || player1.notFound)? 
+              null : 
+              <PlayerInput onSubmitPlayerName={(name) => this.handlePlayerSubmit(name, 'player1')}/>
             }
-            {this.state.isBatleStart ? <PlayerInfo playerInfo={this.state.player1} playerScore={this.state.player1Score}/> : null}
+            {this.state.isBatleStarted ? 
+              <BattleResult playerScore={player1.score} result={this.calculateWinner(player1.score, player2.score)}/> : 
+              null
+            }
+            {player1.notFound ? 
+              <NotFound/> : 
+              (player1.isResetBtnDisplay || this.state.isBatleStarted) ? 
+                <PlayerPreview playerAvatar={player1.avatarUrl} playerName={player1.name}/> : 
+                null
+            }
+            
+            {(player1.isResetBtnDisplay && !this.state.isBatleStarted || player1.notFound) ? 
+              <ResetPlayer onHandleRestPlayer={() => this.handleResetPlayer('player1')}/> : 
+              null
+            }
+            {this.state.isBatleStarted ?
+              <PlayerInfo repos={player1.numOfRepos} followers={player1.followers} following={player1.following}/> :
+              null
+            }
           </div>
-          <div>
-            <label>Player Two</label>
-            {this.state.player2 ? 
-              <PlayerPreview onHandleReset={() => this.handleResetPlayer('player2')} playerInfo={this.state.player2}/> : 
-              <PlayerInput onSubmitPlayer={(playerName) => this.handlePlayerSubmit(playerName, 'player2')}/>
+          <div className="player-wrapper">
+            <label><h2>Player Two</h2></label>
+            {(player2.isResetBtnDisplay || player2.notFound)? 
+              null : 
+              <PlayerInput onSubmitPlayerName={(name) => this.handlePlayerSubmit(name, 'player2')}/>
             }
-            {this.state.isBatleStart ? <PlayerInfo playerInfo={this.state.player2} playerScore={this.state.player2Score}/> : null}
+            {this.state.isBatleStarted ? 
+              <BattleResult playerScore={player2.score} result={this.calculateWinner(player2.score, player1.score)}/> : 
+              null
+            }
+            {player2.notFound ? 
+              <NotFound/> : 
+              (player2.isResetBtnDisplay || this.state.isBatleStarted) ? 
+                <PlayerPreview playerAvatar={player2.avatarUrl} playerName={player2.name}/> : 
+                null
+            }
+            
+            {(player2.isResetBtnDisplay && !this.state.isBatleStarted || player2.notFound) ? 
+              <ResetPlayer onHandleRestPlayer={() => this.handleResetPlayer('player2')}/> : 
+              null
+            }
+            {this.state.isBatleStarted ?
+              <PlayerInfo repos={player2.numOfRepos} followers={player2.followers} following={player2.following}/> :
+              null
+            }
           </div>
         </div>
         <div className="start-battle">
-          {(this.state.player1 && this.state.player2 && !this.state.isBatleStart) ? <button onClick={this.handleStartBatle}>Let the Battle begin</button> : null}
+          {(player1.isResetBtnDisplay && player2.isResetBtnDisplay && !this.state.isBatleStarted) ? 
+            <button onClick={this.handleStartBatle}>Let the Battle begin</button> : 
+            null
+          }
         </div>
       </div>
     );

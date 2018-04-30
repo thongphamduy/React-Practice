@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './index.css';
 
 class PlayerPreview extends React.Component {
@@ -15,12 +15,11 @@ class PlayerPreview extends React.Component {
     return (
       <div>
         <div className="avatar">
-          <img src={this.props.playerInfo.avatarUrl}/>
+          <img src={this.props.playerAvatar}/>
         </div>
         <div className="player-name">
-          {`@${this.props.playerInfo.name}`}
+          {`@${this.props.playerName}`}
         </div>
-        <button onClick={this.handleReset}>Reset</button>
       </div>
     );
   }

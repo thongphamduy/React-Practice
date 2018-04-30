@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './index.css';
 
 class PlayerInput extends React.Component {
@@ -15,7 +15,7 @@ class PlayerInput extends React.Component {
 
   handleSubmit(e){  
     e.preventDefault();
-    this.props.onSubmitPlayer(this.state.value);
+    this.props.onSubmitPlayerName(this.state.value);
     this.setState({value: ""});
   }
 
@@ -25,7 +25,7 @@ class PlayerInput extends React.Component {
     return (
       <div className="player-input">
         <form onSubmit={this.handleSubmit}>
-          <input type="text" value={inputData} onChange={this.handleInputChange}/>
+          <input type="text" value={inputData} onChange={this.handleInputChange} placeholder="enter github user"/>
           <input type="submit"/>
         </form>
       </div>

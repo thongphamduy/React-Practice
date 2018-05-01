@@ -25,3 +25,7 @@ export async function getUserAvatar(userName) {
   const avatar = await fetch(`https://github.com/${userName}.png?size=200`, {'mode': 'no-cors'});
   return avatar;
 }
+
+export function calculateWinner(score1, score2) {
+  return score1 >= score2;
+}

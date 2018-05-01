@@ -88,3 +88,9 @@ img {
   color: red;
   text-align: center;
 }
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}

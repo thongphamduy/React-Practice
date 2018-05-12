@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react'
 import PlayerInput from './PlayerInput';
 import PlayerPreview from './PlayerPreview';
-import { getUserInfo, calculateScore } from './utils';
 import PlayerInfo from './PlayerInfo';
 import ResetPlayer from './ResetPlayer';
 import BattleResult from './BattleResult';
@@ -40,7 +39,7 @@ class PlayerContainer extends PureComponent {
             null
         }
         
-        {(player.isResetBtnDisplay && !this.props.isBatleStarted || player.notFound) ? 
+        {((player.isResetBtnDisplay && !this.props.isBatleStarted) || player.notFound) ? 
           <ResetPlayer onHandleRestPlayer={() => this.handleResetPlayer()}/> : 
           null
         }

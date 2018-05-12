@@ -15,7 +15,7 @@ class PlayerPreview extends React.Component {
     return (
       <div>
         <div className="avatar">
-          <img src={this.props.playerAvatar}/>
+          <img src={this.props.playerAvatar} alt="avatar"/>
         </div>
         <div className="player-name">
           {`@${this.props.playerName}`}

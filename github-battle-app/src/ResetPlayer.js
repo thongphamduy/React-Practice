@@ -12,7 +12,7 @@ class ResetPlayer extends React.Component {
 
   render() {
     return (
-      <a onClick={this.handleReset} href="#" className="link-reset">Reset</a>
+      <a onClick={this.handleReset} href={null} className="link-reset">Reset</a>
     );
   }
 

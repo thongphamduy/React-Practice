@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
-import BattleContainer from './BattleContainer';
+import Header from './Header';
+import Main from './Main';
 import './index.css';
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <BattleContainer/>
+      <div>
+        <Header/>
+        <Main/>
       </div>
     );
   }

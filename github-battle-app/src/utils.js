@@ -29,3 +29,9 @@ export async function getUserAvatar(userName) {
 export function calculateWinner(score1, score2) {
   return score1 >= score2;
 }
+
+export async function getPopularUsersByLang(lang) {
+  const res = await fetch(`https://api.github.com/search/repositories?q=stars:%3E1+language:${lang}&sort=stars&order=desc&type=Repositories`);
+  const data = await res.json();
+  return data.items;
+}

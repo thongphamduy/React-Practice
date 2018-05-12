@@ -103,3 +103,48 @@ img {
   right: 0;
   bottom: 0;
 }
+
+.router {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.router li {
+  display: inline-block;
+  margin: 20px 10px 20px 0;
+}
+
+.router a {
+  text-decoration: none;
+  color: red;
+}
+
+.active {
+  font-weight: bold;
+}
+
+.popularContainer {
+  display: flex;
+  flex-wrap: wrap;
+  text-align: center;
+}
+
+.popularContainer > div{
+  margin: 30px 5px 0 5px;
+}
+
+.langbar {
+  list-style-type: none;
+  text-align: center;
+}
+
+.langbar li {
+  padding: 10px;
+  display: inline;
+}
+
+.langbar li:hover {
+  color: red;
+  cursor: pointer;
+}

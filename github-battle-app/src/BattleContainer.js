@@ -1,12 +1,6 @@
 import React from 'react';
-import PlayerInput from './PlayerInput';
 import './index.css';
-import PlayerPreview from './PlayerPreview';
 import { getUserInfo, calculateScore, calculateWinner } from './utils';
-import PlayerInfo from './PlayerInfo';
-import ResetPlayer from './ResetPlayer';
-import BattleResult from './BattleResult';
-import NotFound from './NotFound';
 import Loading from './Loading';
 import PlayerContainer from './PlayerContainer';
 

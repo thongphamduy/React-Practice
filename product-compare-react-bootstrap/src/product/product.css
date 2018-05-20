@@ -1,21 +1,8 @@
-.cardWrapper {
-  padding: 0;
-  margin: 30px 10px 30px 10px;
+
+.productContainer {
+  width: 400px;
 }
 
-.overlay {
-  position: absolute;
-  background-color: #28a745;
-  height: 100%;
+.img {
   width: 100%;
-  opacity: 0;
 }
-
-.overlay:hover {
-  opacity: 0.5;
-}
-
-.selected {
-  opacity: 0.5;
-}
-
